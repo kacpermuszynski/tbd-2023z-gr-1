@@ -1,2 +1,2 @@
-github_org  = "bdg-tbd"
-github_repo = "tbd-2023z-phase1"
+github_org  = "kacpermuszynski"
+github_repo = "tbd-2023z-gr-1"
