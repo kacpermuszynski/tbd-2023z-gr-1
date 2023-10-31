@@ -41,6 +41,21 @@
 
     ***insert the link to the modified file and terraform snippet here***
 
+    ```terraform
+    resource "google_storage_bucket" "tbd-data-bucket" {
+        project                     = var.project_name
+        name                        = var.data_bucket_name
+        location                    = var.region
+        uniform_bucket_level_access = false #tfsec:ignore:google-storage-enable-ubla
+        public_access_prevention    = "enforced"
+        force_destroy               = true
+    }
+
+    resource "google_storage_bucket_iam_member" "tbd-data-bucket-iam-editor" {
+        bucket = google_storage_bucket.tbd-data-bucket.name
+        role   = "roles/storage.objectUser"
+        member = "serviceAccount:${var.data_service_account}"
+}
     Create PR from this branch to **YOUR** master and merge it to make new release. 
     
     ***place the screenshot from GA after succesfull application of release with this changes***
