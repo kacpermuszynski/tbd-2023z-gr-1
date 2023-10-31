@@ -1,21 +1,28 @@
-IMPORTANT ❗ ❗ ❗ Please remember to destroy all the resources after each work session. You can recreate infrastructure by creating new PR and merging it to master.
-  
-![img.png](doc/figures/destroy.png)
-
-
 1. Authors:
 
-   ***enter your group nr***
+   ***Group 1***
+   Kacper Muszyński
+   Jakub Kliszko
+   Mikołaj Paszkowski
 
-   ***link to forked repo***
+   ***https://github.com/kacpermuszynski/tbd-2023z-gr-1***
    
 2. Fork https://github.com/bdg-tbd/tbd-2023z-phase1 and follow all steps in README.md.
 
+   :green_check_mark:
+    ***Repo cloned, URL above***
+
 3. Select your project and set budget alerts on 5%, 25%, 50%, 80% of 50$ (in cloud console -> billing -> budget & alerts -> create buget; unclick discounts and promotions&others while creating budget).
 
-  ![img.png](doc/figures/discounts.png)
+   :green_check_mark:
+    ***Done, screenshot below***
+  ![img.png](doc/figures/buget-and-alerts.png)
 
 4. From avaialble Github Actions select and run destroy on main branch.
+
+   :green_check_mark:
+    ***Done, screenshot below***
+  ![img.png](doc/figures/ga-destroy.png)
 
 5. Create new git branch and add two resources in ```/modules/data-pipeline/main.tf```:
     1. resource "google_storage_bucket" "tbd-data-bucket" -> the bucket to store data. Set the following properties:
