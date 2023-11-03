@@ -41,6 +41,9 @@
 
     ***insert the link to the modified file and terraform snippet here***
 
+    ***Link to file*** https://github.com/kacpermuszynski/tbd-2023z-gr-1/blob/master/modules/data-pipeline/main.tf
+
+    ***Snippet***
     ```terraform
     resource "google_storage_bucket" "tbd-data-bucket" {
         project                     = var.project_name
@@ -55,16 +58,31 @@
         bucket = google_storage_bucket.tbd-data-bucket.name
         role   = "roles/storage.objectUser"
         member = "serviceAccount:${var.data_service_account}"
-}
+    }
+    ```
+
     Create PR from this branch to **YOUR** master and merge it to make new release. 
     
     ***place the screenshot from GA after succesfull application of release with this changes***
 
-    
+    **Successfull GA output with changes:**
+
+    ![img.png](doc/figures/bucket-success-ga.png)
 
 6. Analyze terraform code. Play with terraform plan, terraform graph to investigate different modules.
 
     ***describe one selected module and put the output of terraform graph for this module here***
+
+    **Terraform plan**
+
+    Terraform plan is a command in Terraform, which lets you check what resoureces, will be created, deleted or update without making any changes to the real environment.
+
+    Terraform plan is simillary to terraform apply, it says how many resoureces will be changed, but the changes do not apply. It accepptes variables and informes about errors.
+
+    Terraform plan reades the Terraform state file, so it it is up to date will recent configuration of all of the resources.
+
+    **Output of Terraform graph**
+    ![img.png](doc/figures/graph.png)
    
 7. Reach YARN UI
    
@@ -98,7 +116,9 @@
   
 13. Start an interactive session from Vertex AI workbench (steps 7-9 in README):
 
-    ***place the screenshot of notebook here***
+    **Screenshot of Vertex AI workbench**
+
+    ![img.png](doc/figures/vertex-hello-world.png)
    
 14. Find and correct the error in spark-job.py
 
