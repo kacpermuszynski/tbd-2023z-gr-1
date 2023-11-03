@@ -9,18 +9,18 @@
    
 2. Fork https://github.com/bdg-tbd/tbd-2023z-phase1 and follow all steps in README.md.
 
-   :green_check_mark:
+   :white_check_mark:
     ***Repo cloned, URL above***
 
 3. Select your project and set budget alerts on 5%, 25%, 50%, 80% of 50$ (in cloud console -> billing -> budget & alerts -> create buget; unclick discounts and promotions&others while creating budget).
 
-   :green_check_mark:
+   :white_check_mark:
     ***Done, screenshot below***
   ![img.png](doc/figures/buget-and-alerts.png)
 
-4. From avaialble Github Actions select and run destroy on main branch.
+4. From available Github Actions select and run destroy on main branch.
 
-   :green_check_mark:
+   :white_check_mark:
     ***Done, screenshot below***
   ![img.png](doc/figures/ga-destroy.png)
 
@@ -35,7 +35,7 @@
         * if checkcov returns error, add other properties if needed
        
     2. resource "google_storage_bucket_iam_member" "tbd-data-bucket-iam-editor" -> assign role storage.objectUser to data service account. Set the following properties:
-        * bucket // refere to bucket name from tbd-data-bucket
+        * bucket // refer to bucket name from tbd-data-bucket
         * role   // follow the instruction above
         * member = "serviceAccount:${var.data_service_account}"
 
@@ -63,9 +63,9 @@
 
     Create PR from this branch to **YOUR** master and merge it to make new release. 
     
-    ***place the screenshot from GA after succesfull application of release with this changes***
+    ***place the screenshot from GA after successful application of release with this changes***
 
-    **Successfull GA output with changes:**
+    **Successfully GA output with changes:**
 
     ![img.png](doc/figures/bucket-success-ga.png)
 
@@ -75,11 +75,11 @@
 
     **Terraform plan**
 
-    Terraform plan is a command in Terraform, which lets you check what resoureces, will be created, deleted or update without making any changes to the real environment.
+    Terraform plan is a command in Terraform, which lets you check what resources, will be created, deleted or update without making any changes to the real environment.
 
-    Terraform plan is simillary to terraform apply, it says how many resoureces will be changed, but the changes do not apply. It accepptes variables and informes about errors.
+    Terraform plan is similar to terraform apply, it says how many resources will be changed, but the changes do not apply. It accepptes variables and informes about errors.
 
-    Terraform plan reades the Terraform state file, so it it is up to date will recent configuration of all of the resources.
+    Terraform plan reads the Terraform state file, so it it is up to date will recent configuration of all of the resources.
 
     **Output of Terraform graph**
     ![img.png](doc/figures/graph.png)
