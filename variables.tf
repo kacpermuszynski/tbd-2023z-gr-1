@@ -28,3 +28,8 @@ variable "jupyterlab_machine_type" {
   description = "The machine type for the JupyterLab instance"
   default     = "e2-standard-2"
 }
+
+variable "dataproc_num_preemptible_nodes" {
+  description = "The number of preemptible/spot instances for the Dataproc cluster"
+  default     = 0
+}
