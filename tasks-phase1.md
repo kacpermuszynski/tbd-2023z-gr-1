@@ -12,7 +12,7 @@
    :white_check_mark:
     ***Repo cloned, URL above***
 
-3. Select your project and set budget alerts on 5%, 25%, 50%, 80% of 50$ (in cloud console -> billing -> budget & alerts -> create buget; unclick discounts and promotions&others while creating budget).
+3. Select your project and set budget alerts on 5%, 25%, 50%, 80% of 50$ (in cloud console -> billing -> budget & alerts -> create buget ; unclick discounts and promotions&others while creating budget).
 
    :white_check_mark:
     ***Done, screenshot below***
