@@ -81,9 +81,13 @@
     **Output of Terraform graph**
     ![img.png](doc/figures/graph.png)
    
-7. Reach YARN UI
+7. :white_check_mark: Reach YARN UI
    
    ***place the port and the screenshot of YARN UI here***
+    
+    http://tbd-cluster-m:8088/cluster
+    
+    ![img.png](doc/figures/yarn-ui.png)
    
 8. Draw an architecture diagram (e.g. in draw.io) that includes:
     1. VPC topology with service assignment to subnets
@@ -149,7 +153,7 @@
 
    ![img.png](doc/figures/infracost-usage.png)
 
-10. Some resources are not supported by infracost yet. Estimate manually total costs of infrastructure based on pricing costs for region used in the project. Include costs of cloud composer, dataproc and AI vertex workbanch and them to infracost estimation.
+10. :white_check_mark: Some resources are not supported by infracost yet. Estimate manually total costs of infrastructure based on pricing costs for region used in the project. Include costs of cloud composer, dataproc and AI vertex workbanch and them to infracost estimation.
 
     ***place your estimation and references here***    
 
@@ -179,7 +183,7 @@
     - Using spot instances, if work that we are doing is not crucial(it is not a production environment) we could use a spot instances, which are much cheaper.
     - Delete unnecessary resources, as our environment is created using terraform, we could easily delete and create environment once again when it is needed, saving costs.
 
-12. Create a BigQuery dataset and an external table
+12. :white_check_mark: Create a BigQuery dataset and an external table
     
     ***place the code and output here***
     ```
@@ -190,7 +194,7 @@
    
    The table schema is auto-generated from the ORC sample file provided in the external table creation.
   
-13. Start an interactive session from Vertex AI workbench (steps 7-9 in README):
+13. :white_check_mark: Start an interactive session from Vertex AI workbench (steps 7-9 in README):
 
     **Screenshot of Vertex AI workbench**
 
