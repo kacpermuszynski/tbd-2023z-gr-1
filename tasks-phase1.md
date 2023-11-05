@@ -97,6 +97,8 @@
   
     ***place your diagram here***
 
+    ![img.png](doc/figures/tbd-diagram.drawio.png)
+
 9. :white_check_mark: Add costs by entering the expected consumption into Infracost
 
     #### Expected Infrastructure Usage
@@ -178,10 +180,10 @@
    ***what are the options for cost optimization?***
 
    There is a lot of ways for cost optimization. Here are some of the ideas, that we could implement in our environment:
-    - Instead of using virtual machines, which are running all the time, even we are not using them at the moment, we could use cloud resources, which are serverless, then we would pay only for real time of usage
-    - right-sizing, we could reduce number of workers in clusters, or change the size of virtual machine.
-    - Using spot instances, if work that we are doing is not crucial(it is not a production environment) we could use a spot instances, which are much cheaper.
-    - Delete unnecessary resources, as our environment is created using terraform, we could easily delete and create environment once again when it is needed, saving costs.
+   * Instead of using virtual machines, which are running all the time, even we are not using them at the moment, we could use cloud resources, which are serverless, then we would pay only for real time of usage
+   * Right-sizing, we could reduce number of workers in clusters, or change the size of virtual machine 
+   * Using spot instances, if work that we are doing is not crucial(it is not a production environment) we could use a spot instances, which are much cheaper.
+   * Delete unnecessary resources, as our environment is created using terraform, we could easily delete and create environment once again when it is needed, saving costs.
 
 12. :white_check_mark: Create a BigQuery dataset and an external table
     
@@ -204,20 +206,26 @@
 
     ***describe the cause and how to find the error***
 
-15. Additional tasks using Terraform:
+15. :white_check_mark: Additional tasks using Terraform:
 
     1. Add support for arbitrary machine types and worker nodes for a Dataproc cluster and JupyterLab instance
 
     ***place the link to the modified file and inserted terraform code***
+
+    [Commit with modified Terraform files](https://github.com/bdg-tbd/tbd-2023z-phase1/commit/9b5eaeb1464fa3789f941601c685ae62a542f8fe)
     
     3. Add support for preemptible/spot instances in a Dataproc cluster
 
     ***place the link to the modified file and inserted terraform code***
+
+    [Commit with modified Terraform files](https://github.com/bdg-tbd/tbd-2023z-phase1/commit/aad3f86637f91e9f90d2581edccaf749110e022a)
     
     3. Perform additional hardening of Jupyterlab environment, i.e. disable sudo access and enable secure boot
     
     ***place the link to the modified file and inserted terraform code***
 
+    [Commit with modified Terraform files](https://github.com/bdg-tbd/tbd-2023z-phase1/commit/eb739cf423fd7c2d10044fde41f9b18286bc60eb)
+
     4. (Optional) Get access to Apache Spark WebUI
 
-    ***place the link to the modified file and inserted terraform code***
+   
