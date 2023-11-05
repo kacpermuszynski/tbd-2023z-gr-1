@@ -50,12 +50,18 @@ resource "google_notebooks_instance" "tbd_notebook" {
   #checkov:skip=CKV2_GCP_18: "Ensure GCP network defines a firewall and does not use the default firewall"
   depends_on   = [google_project_service.notebooks]
   location     = local.zone
-  machine_type = "e2-standard-2"
+  machine_type = var.machine_type
   name         = "${var.project_name}-notebook"
   container_image {
     repository = var.ai_notebook_image_repository
     tag        = var.ai_notebook_image_tag
   }
+
+    # Enable Secure Boot
+  shielded_instance_config {
+    enable_secure_boot = true
+  }
+  
   network = var.network
   subnet  = var.subnet
   ## change it to break the checkov during the labs

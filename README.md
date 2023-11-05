@@ -139,6 +139,10 @@ No resources.
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
 | <a name="input_ai_notebook_instance_owner"></a> [ai\_notebook\_instance\_owner](#input\_ai\_notebook\_instance\_owner) | Vertex AI workbench owner | `string` | n/a | yes |
+| <a name="input_dataproc_machine_type"></a> [dataproc\_machine\_type](#input\_dataproc\_machine\_type) | The machine type for the Dataproc cluster | `string` | `"e2-standard-2"` | no |
+| <a name="input_dataproc_num_preemptible_nodes"></a> [dataproc\_num\_preemptible\_nodes](#input\_dataproc\_num\_preemptible\_nodes) | The number of preemptible/spot instances for the Dataproc cluster | `number` | `0` | no |
+| <a name="input_dataproc_num_worker_nodes"></a> [dataproc\_num\_worker\_nodes](#input\_dataproc\_num\_worker\_nodes) | The number of worker nodes for the Dataproc cluster | `number` | `2` | no |
+| <a name="input_jupyterlab_machine_type"></a> [jupyterlab\_machine\_type](#input\_jupyterlab\_machine\_type) | The machine type for the JupyterLab instance | `string` | `"e2-standard-2"` | no |
 | <a name="input_project_name"></a> [project\_name](#input\_project\_name) | Project name | `string` | n/a | yes |
 | <a name="input_region"></a> [region](#input\_region) | GCP region | `string` | `"europe-west1"` | no |
 
