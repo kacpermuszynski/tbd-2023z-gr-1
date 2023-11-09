@@ -185,28 +185,59 @@
    * Using spot instances, if work that we are doing is not crucial(it is not a production environment) we could use a spot instances, which are much cheaper.
    * Delete unnecessary resources, as our environment is created using terraform, we could easily delete and create environment once again when it is needed, saving costs.
 
-12. :white_check_mark: Create a BigQuery dataset and an external table
+11. :white_check_mark: Create a BigQuery dataset and an external table
     
     ***place the code and output here***
     ```
-    bq mk my_dataset
-    bq mk --table --external_table_definition=@ORC=gs://cloud-samples-data/bigquery/us-states/us-states.orc my_dataset.my_table    ```
+    ❯ bq mk my_dataset
+    ❯ bq mk --table --external_table_definition=@ORC=gs://tbd-2023z-292764-data/data/shakespeare/part-00000-b16e69d5-87b8-410e-a7e9-7dc6d3c01b05-c000.snappy.orc my_dataset.my_table    
+    ```
     
+    The provided *.orc table definition was used for creating the external big query table.
+    The table has been successfully created with provided definition, as follows:
+    ```
+    ❯ bq show my_dataset.my_table
+    Table tbd-2023z-292764:my_dataset.my_table
+
+    Last modified              Schema               Type     Total URIs   Expiration   Labels
+    ----------------- ---------------------------- ---------- ------------ ------------ -------- 
+    09 Nov 22:40:29   |- word: string              EXTERNAL   1                                 
+                      |- sum_word_count: integer                                                
+    ```
+
+    ![img.png](doc/figures/table_orc.png)
+
    ***why does ORC not require a table schema?***
    
    The table schema is auto-generated from the ORC sample file provided in the external table creation.
   
-13. :white_check_mark: Start an interactive session from Vertex AI workbench (steps 7-9 in README):
+12. :white_check_mark: Start an interactive session from Vertex AI workbench (steps 7-9 in README):
 
     **Screenshot of Vertex AI workbench**
 
     ![img.png](doc/figures/vertex-hello-world.png)
    
-14. Find and correct the error in spark-job.py
+13. :white_check_mark: Find and correct the error in spark-job.py
 
     ***describe the cause and how to find the error***
+    
+    The error in the spark-job.py is related to the wrong bucket name hardcoded in the script file:
 
-15. :white_check_mark: Additional tasks using Terraform:
+    ![img.png](doc/figures/job_error.png)
+
+    After fixing the bucket name, we re-run the job and the job succeeded:
+
+    ![img.png](doc/figures/job_success.png)
+
+    Therefore the *.orc file has been generated successfully:
+
+    ```
+    ❯ gsutil ls gs://tbd-2023z-292764-data/data/shakespeare
+    
+    gs://tbd-2023z-292764-data/data/shakespeare/part-00000-b16e69d5-87b8-410e-a7e9-7dc6d3c01b05-c000.snappy.orc
+    ```
+
+14. Additional tasks using Terraform:
 
     1. Add support for arbitrary machine types and worker nodes for a Dataproc cluster and JupyterLab instance
 
