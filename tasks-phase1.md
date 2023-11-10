@@ -25,7 +25,7 @@
     1. resource "google_storage_bucket" "tbd-data-bucket" -> the bucket to store data. Set the following properties:
         * project  // look for variable in variables.tf
         * name  // look for variable in variables.tf
-        * location // look for variable in variables.tf
+        * location // look for variable in variables.tf:white_check_mark:
         * uniform_bucket_level_access = false #tfsec:ignore:google-storage-enable-ubla
         * force_destroy               = true
         * public_access_prevention    = "enforced"
@@ -89,7 +89,7 @@
     
     ![img.png](doc/figures/yarn-ui.png)
    
-8. Draw an architecture diagram (e.g. in draw.io) that includes:
+8. :white_check_mark: Draw an architecture diagram (e.g. in draw.io) that includes:
     1. VPC topology with service assignment to subnets
     2. Description of the components of service accounts
     3. List of buckets for disposal
@@ -98,6 +98,28 @@
     ***place your diagram here***
 
     ![img.png](doc/figures/tbd-diagram.drawio.png)
+
+    3. **description of the components of service accounts:**
+
+    tbd-composer-sa has role granted on the project resource:
+    * Composer Worker 
+    * Dataproc Editor
+    * Service Account User
+
+    tbd-terraform has role granted on the project resource: 
+    * Owner
+
+    iac has role granted on the project resource:
+    * Editor 
+    * Service Account Token Creator
+
+    4. **why it is necessary to specify the host for the driver:**
+
+    Port of the driver: 16384
+
+    ![img.png](doc/figures/driver-port.png)
+
+    In a Apache Spark, where application is distributed and a program is being executed on a cluster it is necessary to specify the host for the driver. The driver, know as a master node is responsible for distributing and managing requests, which later on are being processed on worker nodes. Actual operations are being executed on worker nodes, driver is only for managing their work. That is is, worker node need to know, where to send the results and from where to listen for the instrucions. If the worker wouldn't know how to communicate with a driver it wouldn't be possible for apache spark to execute its operation.
 
 9. :white_check_mark: Add costs by entering the expected consumption into Infracost
 
@@ -237,7 +259,7 @@
     gs://tbd-2023z-292764-data/data/shakespeare/part-00000-b16e69d5-87b8-410e-a7e9-7dc6d3c01b05-c000.snappy.orc
     ```
 
-14. Additional tasks using Terraform:
+14. :white_check_mark: Additional tasks using Terraform:
 
     1. Add support for arbitrary machine types and worker nodes for a Dataproc cluster and JupyterLab instance
 
@@ -259,4 +281,11 @@
 
     4. (Optional) Get access to Apache Spark WebUI
 
+    To get access to Apache Spark WebUI, modificiation of terraform file is not necsessary. To get there, we have connected to dataprocs cluster and run spark-shell command. Then spark has launched. Here is the screenshot from cluster.
+
+    ![img.png](doc/figures/dataproc-spark.png)
+
+    Thanks to that we could access web ui via browser
+
+    ![img.png](doc/figures/spark-webui.png)
    
