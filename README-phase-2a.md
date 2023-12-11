@@ -34,14 +34,14 @@ module "dbt_docker_image" {
   spark_version      = local.spark_version
 }
 ```
-4. Provision your infrastructure.
+4. :white_check_mark: Provision your infrastructure.
 
     a) setup Vertex AI Workbench `pyspark` kernel as described in point [8](https://github.com/bdg-tbd/tbd-workshop-1/tree/v1.0.32#project-setup) 
 
-    b) upload [tpc-di-setup.ipynb](https://github.com/bdg-tbd/tbd-workshop-1/blob/v1.0.33/notebooks/tpc-di-setup.ipynb) to 
-the running instance of your Vertex AI Workbench
+    b) upload [tpc-di-setup.ipynb](https://github.com/bdg-tbd/tbd-workshop-1/blob/v1.0.33/notebooks/tpc-di-setup.ipynb) to the running instance of your Vertex AI Workbench
 
-5. In `tpc-di-setup.ipynb` modify cell under section ***Clone tbd-tpc-di repo***:
+
+5. :white_check_mark: In `tpc-di-setup.ipynb` modify cell under section ***Clone tbd-tpc-di repo***:
 
    a)first, fork https://github.com/mwiewior/tbd-tpc-di.git to your github organization.
 
