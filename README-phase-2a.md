@@ -69,7 +69,9 @@ module "dbt_docker_image" {
 
 8. Analyze tpcdi.py. What happened in the loading stage?
 
-   ***Your answer***
+   The script starts by initializing a Spark session using PySpark. For each of the four databases (`digen`, `bronze`, `silver`, `gold`), the script attempts to create the databases if they don't already exist. These databases are created in Hive with specified warehouse locations. The script sets the current database to `digen` using the `session.sql('USE digen')` command.
+
+   The script processes several specific text files. Each file has a specific schema defined using the StructType and StructField classes from PySpark. The load_csv function is called for each file to load the data into Spark DataFrames.
 
 9. Using SparkSQL answer: how many table were created in each layer?
 
