@@ -118,5 +118,4 @@ with models.DAG(
     )
 
     # Adding dependencies
-    kubernetes_min_pod >> dbt_run_task
-    kubernetes_min_pod >> dbt_test_task    
+    kubernetes_min_pod >> dbt_run_task >> dbt_test_task 
