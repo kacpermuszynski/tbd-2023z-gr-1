@@ -83,8 +83,7 @@ with models.DAG(
         name="dbt-run-task",
         image_pull_policy="Always",
         cmds=["bash", "-c"],
-        arguments=["git clone https://github.com/mwiewior/tbd-tpc-di.git && cd tbd-tpc-di && dbt deps"
-                "&& dbt run"],
+        arguments=["git clone https://github.com/mwiewior/tbd-tpc-di.git && cd tbd-tpc-di && dbt deps && dbt run"],
         namespace="composer-user-workloads",
         image="eu.gcr.io/{{ var.value.project_id }}/dbt:1.7.3",
         config_file="/home/airflow/composer_kube_config",
@@ -103,8 +102,7 @@ with models.DAG(
         name="dbt-test-task",
         image_pull_policy="Always",
         cmds=["bash", "-c"],
-        arguments=["git clone https://github.com/mwiewior/tbd-tpc-di.git && cd tbd-tpc-di && dbt deps"
-                "&& dbt test"],
+        arguments=["git clone https://github.com/mwiewior/tbd-tpc-di.git && cd tbd-tpc-di && dbt deps && dbt test"],
         namespace="composer-user-workloads",
         image="eu.gcr.io/{{ var.value.project_id }}/dbt:1.7.3",
         config_file="/home/airflow/composer_kube_config",
