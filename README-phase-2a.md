@@ -157,6 +157,6 @@ module "dbt_docker_image" {
 ```
 
 
-12. Redeploy infrastructure and check if the DAG finished with no errors:
+12. :white_check_mark: Redeploy infrastructure and check if the DAG finished with no errors:
 
 ***The screenshot of Apache Aiflow UI***
