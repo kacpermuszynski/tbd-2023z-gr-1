@@ -97,7 +97,7 @@ module "dbt_docker_image" {
    Print the count of tables in each layer
    for layer, count in layer_counts.items():
       print(f'Layer: {layer}, Count: {count}')
-      ```
+   ```
 
       ![img.png](doc/figures/sql-tables.png)
 
@@ -157,6 +157,8 @@ module "dbt_docker_image" {
 ```
 
 
-12. :white_check_mark: Redeploy infrastructure and check if the DAG finished with no errors:
+12. Redeploy infrastructure and check if the DAG finished with no errors:
 
 ***The screenshot of Apache Aiflow UI***
+
+WARN metastore: Failed to connect to the MetaStore Serve
