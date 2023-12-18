@@ -71,13 +71,26 @@ module "dbt_docker_image" {
 
    The script starts by initializing a Spark session using PySpark. For each of the four databases (`digen`, `bronze`, `silver`, `gold`), the script attempts to create the databases if they don't already exist. These databases are created in Hive with specified warehouse locations. The script sets the current database to `digen` using the `session.sql('USE digen')` command.
 
-   The script processes several specific text files. Each file has a specific schema defined using the StructType and StructField classes from PySpark. The load_csv function is called for each file to load the data into Spark DataFrames.
+   The script processes several specific text files. Each file has a specific schema defined using the `StructType` and `StructField` classes from PySpark. The `load_csv` function is called for each file to load the data into Spark DataFrames.
 
-9. Using SparkSQL answer: how many table were created in each layer?
+   For the 'FINWIRE' files, which are fixed-width, the script reads the entire line as "line" and creates a temporary table named 'finwire'. It then extracts specific columns based on record types (CMP, SEC, FIN) and saves each DataFrame as a separate table ('cmp', 'sec', 'fin').
+
+Functions:
+* `process_files` - This function is the main entry point for processing TPC-DI files.
+* `get_stage_path` - This function constructs the stage path in Google Cloud Storage based on the specified stage and file name.
+* `upload_files` - This function is responsible for uploading files to the specified stage in Google Cloud Storage.
+* `load_csv` - This function is used to load CSV files into Spark DataFrames.
+
+Analyzing the output logs after we ran the script, we can conclude that:
+- The script resolved dependencies using Ivy.
+- Spark was configured with some warnings about native-hadoop libraries.
+- All the tables were created without any apparent errors.
+
+10. Using SparkSQL answer: how many table were created in each layer?
 
    ***SparkSQL command and output***
 
-10. Add some 3 more [dbt tests](https://docs.getdbt.com/docs/build/tests) and explain what you are testing. ***Add new tests to your repository.***
+11. Add some 3 more [dbt tests](https://docs.getdbt.com/docs/build/tests) and explain what you are testing. ***Add new tests to your repository.***
 
    ***Code and description of your tests***
 
