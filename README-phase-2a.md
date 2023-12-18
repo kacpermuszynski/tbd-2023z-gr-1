@@ -47,7 +47,7 @@ module "dbt_docker_image" {
 
    b)update `git clone` command to point to ***your fork***.
 
-6. Access Vertex AI Workbench and run cell by cell notebook `tpc-di-setup.ipynb`.
+6. :white_check_mark: Access Vertex AI Workbench and run cell by cell notebook `tpc-di-setup.ipynb`.
 
     a) in the first cell of the notebook replace: `%env DATA_BUCKET=tbd-2023z-9910-data` with your data bucket.
    
@@ -86,20 +86,94 @@ Analyzing the output logs after we ran the script, we can conclude that:
 - Spark was configured with some warnings about native-hadoop libraries.
 - All the tables were created without any apparent errors.
 
-9. Using SparkSQL answer: how many table were created in each layer?
+9. :white_check_mark: Using SparkSQL answer: how many table were created in each layer?
 
    ***SparkSQL command and output***
+
+   ```python
+   # List of all databases (layers)
+   databases_df = spark.sql("show databases")
+   databases = [row.namespace for row in databases_df.collect()]
+
+   # Initialize a dictionary to hold the count of tables in each layer
+   layer_counts = {}
+
+   #For each database
+   for db_name in databases:
+      # Use the database
+      spark.sql(f"use {db_name}")
+      
+      # Get the list of all tables in the database
+      tables = spark.sql("show tables")
+      
+      # The count of tables in the database is the count of tables in the layer
+      layer_counts[db_name] = tables.count()
+
+   Print the count of tables in each layer
+   for layer, count in layer_counts.items():
+      print(f'Layer: {layer}, Count: {count}')
+   ```
+
+      ![img.png](doc/figures/sql-tables.png)
 
 10. Add some 3 more [dbt tests](https://docs.getdbt.com/docs/build/tests) and explain what you are testing. ***Add new tests to your repository.***
 
    ***Code and description of your tests***
 
-11. Modify modules/data-pipeline/resources/dbt-dag.py and add new tasks to Apache Airflow DAG:
+11. :white_check_mark: Modify modules/data-pipeline/resources/dbt-dag.py and add new tasks to Apache Airflow DAG:
 * that will execute `dbt run`
 * that will execute dbt tests.
 
   ***The DAG code***
 
+```python
+   # Task to execute dbt run
+  dbt_run_task = KubernetesPodOperator(
+        task_id="dbt-run-task",
+        name="dbt-run-task",
+        image_pull_policy="Always",
+        cmds=["bash", "-c"],
+        arguments=["git clone https://github.com/mwiewior/tbd-tpc-di.git && cd tbd-tpc-di"
+                "&& dbt run"],
+        namespace="composer-user-workloads",
+        image="eu.gcr.io/{{ var.value.project_id }}/dbt:1.7.3",
+        config_file="/home/airflow/composer_kube_config",
+        kubernetes_conn_id="kubernetes_default",
+        container_resources={
+            'request_memory': '2048M',
+            'limit_memory': '4096M',
+            'request_cpu': '800m',
+            'limit_cpu': '1000m'
+        }
+    )
+
+    # Task to execute dbt tests
+    dbt_test_task = KubernetesPodOperator(
+        task_id="dbt-test-task",
+        name="dbt-test-task",
+        image_pull_policy="Always",
+        cmds=["bash", "-c"],
+        arguments=["git clone https://github.com/mwiewior/tbd-tpc-di.git && cd tbd-tpc-di"
+                "&& dbt test"],
+        namespace="composer-user-workloads",
+        image="eu.gcr.io/{{ var.value.project_id }}/dbt:1.7.3",
+        config_file="/home/airflow/composer_kube_config",
+        kubernetes_conn_id="kubernetes_default",
+        container_resources={
+            'request_memory': '2048M',
+            'limit_memory': '4096M',
+            'request_cpu': '800m',
+            'limit_cpu': '1000m'
+        }
+    )
+
+    # Adding dependencies
+    kubernetes_min_pod >> dbt_run_task >> dbt_test_task 
+```
+
+
 12. Redeploy infrastructure and check if the DAG finished with no errors:
 
 ***The screenshot of Apache Aiflow UI***
+
+WARN metastore: Failed to connect to the MetaStore Serve
