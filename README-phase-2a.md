@@ -86,11 +86,11 @@ Analyzing the output logs after we ran the script, we can conclude that:
 - Spark was configured with some warnings about native-hadoop libraries.
 - All the tables were created without any apparent errors.
 
-10. Using SparkSQL answer: how many table were created in each layer?
+9. Using SparkSQL answer: how many table were created in each layer?
 
    ***SparkSQL command and output***
 
-11. Add some 3 more [dbt tests](https://docs.getdbt.com/docs/build/tests) and explain what you are testing. ***Add new tests to your repository.***
+10. Add some 3 more [dbt tests](https://docs.getdbt.com/docs/build/tests) and explain what you are testing. ***Add new tests to your repository.***
 
    ***Code and description of your tests***
 
