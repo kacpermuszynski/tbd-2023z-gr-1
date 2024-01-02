@@ -22,38 +22,60 @@ Worth to read:
 
    https://github.com/kacpermuszynski/tbd-2023z-gr-1
 
-3. :white_check_mark: Replace your `main.tf` (in the root module) from the phase 1 with [main.tf](https://github.com/bdg-tbd/tbd-workshop-1/blob/v1.0.32/main.tf)
-at the same time changing each module `source` reference from the repo relative path to a github repo tag `v1.0.33` , e.g.:
+3. :white_check_mark: Replace your `main.tf` (in the root module) from the phase 1 with [main.tf](https://github.com/bdg-tbd/tbd-workshop-1/blob/v1.0.36/main.tf)
+and change each module `source` reference from the repo relative path to a github repo tag `v1.0.36` , e.g.:
 ```hcl
 module "dbt_docker_image" {
   depends_on = [module.composer]
-  source             = "github.com/bdg-tbd/tbd-workshop-1.git?ref=v1.0.33/modules/dbt_docker_image"
+  source             = "github.com/bdg-tbd/tbd-workshop-1.git?ref=v1.0.36/modules/dbt_docker_image"
   registry_hostname  = module.gcr.registry_hostname
   registry_repo_name = coalesce(var.project_name)
   project_name       = var.project_name
   spark_version      = local.spark_version
 }
 ```
-4. :white_check_mark: Provision your infrastructure.
+4. Provision your infrastructure.
 
     a) setup Vertex AI Workbench `pyspark` kernel as described in point [8](https://github.com/bdg-tbd/tbd-workshop-1/tree/v1.0.32#project-setup) 
 
-    b) upload [tpc-di-setup.ipynb](https://github.com/bdg-tbd/tbd-workshop-1/blob/v1.0.33/notebooks/tpc-di-setup.ipynb) to the running instance of your Vertex AI Workbench
+    b) upload [tpc-di-setup.ipynb](https://github.com/bdg-tbd/tbd-workshop-1/blob/v1.0.36/notebooks/tpc-di-setup.ipynb) to 
+the running instance of your Vertex AI Workbench
 
-
-5. :white_check_mark: In `tpc-di-setup.ipynb` modify cell under section ***Clone tbd-tpc-di repo***:
+5. In `tpc-di-setup.ipynb` modify cell under section ***Clone tbd-tpc-di repo***:
 
    a)first, fork https://github.com/mwiewior/tbd-tpc-di.git to your github organization.
 
-   b)update `git clone` command to point to ***your fork***.
+   b)create new branch (e.g. 'notebook') in your fork of tbd-tpc-di and modify profiles.yaml by commenting following lines:
+   ```  
+        #"spark.driver.port": "30000"
+        #"spark.blockManager.port": "30001"
+        #"spark.driver.host": "10.11.0.5"  #FIXME: Result of the command (kubectl get nodes -o json |  jq -r '.items[0].status.addresses[0].address')
+        #"spark.driver.bindAddress": "0.0.0.0"
+   ```
+   This lines are required to run dbt on airflow but have to be commented while running dbt in notebook.
 
-6. :white_check_mark: Access Vertex AI Workbench and run cell by cell notebook `tpc-di-setup.ipynb`.
+   c)update git clone command to point to ***your fork***.
 
-    a) in the first cell of the notebook replace: `%env DATA_BUCKET=tbd-2023z-9910-data` with your data bucket.
+ 
+
+
+6. Access Vertex AI Workbench and run cell by cell notebook `tpc-di-setup.ipynb`.
+
+   a) in the first cell of the notebook replace: `%env DATA_BUCKET=tbd-2023z-9910-data` with your data bucket.
+
+
+   b) in the cell:
+         ```%%bash
+         mkdir -p git && cd git
+         git clone https://github.com/mwiewior/tbd-tpc-di.git
+         cd tbd-tpc-di
+         git pull
+         ```
+      replace repo with your fork. Next checkout to 'notebook' branch.
    
-    b) after running first cells your fork of `tbd-tpc-di` repository will be cloned into Vertex AI  enviroment (see git folder).
+   c) after running first cells your fork of `tbd-tpc-di` repository will be cloned into Vertex AI  enviroment (see git folder).
 
-    c) take a look on `git/tbd-tpc-di/profiles.yaml`. This file includes Spark parameters that can be changed if you need to increase the number of executors and
+   d) take a look on `git/tbd-tpc-di/profiles.yaml`. This file includes Spark parameters that can be changed if you need to increase the number of executors and
   ```
    server_side_parameters:
        "spark.driver.memory": "2g"
@@ -67,7 +89,7 @@ module "dbt_docker_image" {
 
    ***Files desccription***
 
-8. Analyze tpcdi.py. What happened in the loading stage?
+8. :white_check_mark: Analyze tpcdi.py. What happened in the loading stage?
 
    The script starts by initializing a Spark session using PySpark. For each of the four databases (`digen`, `bronze`, `silver`, `gold`), the script attempts to create the databases if they don't already exist. These databases are created in Hive with specified warehouse locations. The script sets the current database to `digen` using the `session.sql('USE digen')` command.
 
@@ -120,60 +142,13 @@ Analyzing the output logs after we ran the script, we can conclude that:
 
    ***Code and description of your tests***
 
-11. :white_check_mark: Modify modules/data-pipeline/resources/dbt-dag.py and add new tasks to Apache Airflow DAG:
-* that will execute `dbt run`
-* that will execute dbt tests.
-
-  ***The DAG code***
-
-```python
-   # Task to execute dbt run
-  dbt_run_task = KubernetesPodOperator(
-        task_id="dbt-run-task",
-        name="dbt-run-task",
-        image_pull_policy="Always",
-        cmds=["bash", "-c"],
-        arguments=["git clone https://github.com/mwiewior/tbd-tpc-di.git && cd tbd-tpc-di"
-                "&& dbt run"],
-        namespace="composer-user-workloads",
-        image="eu.gcr.io/{{ var.value.project_id }}/dbt:1.7.3",
-        config_file="/home/airflow/composer_kube_config",
-        kubernetes_conn_id="kubernetes_default",
-        container_resources={
-            'request_memory': '2048M',
-            'limit_memory': '4096M',
-            'request_cpu': '800m',
-            'limit_cpu': '1000m'
-        }
-    )
-
-    # Task to execute dbt tests
-    dbt_test_task = KubernetesPodOperator(
-        task_id="dbt-test-task",
-        name="dbt-test-task",
-        image_pull_policy="Always",
-        cmds=["bash", "-c"],
-        arguments=["git clone https://github.com/mwiewior/tbd-tpc-di.git && cd tbd-tpc-di"
-                "&& dbt test"],
-        namespace="composer-user-workloads",
-        image="eu.gcr.io/{{ var.value.project_id }}/dbt:1.7.3",
-        config_file="/home/airflow/composer_kube_config",
-        kubernetes_conn_id="kubernetes_default",
-        container_resources={
-            'request_memory': '2048M',
-            'limit_memory': '4096M',
-            'request_cpu': '800m',
-            'limit_cpu': '1000m'
-        }
-    )
-
-    # Adding dependencies
-    kubernetes_min_pod >> dbt_run_task >> dbt_test_task 
-```
-
+11. In main.tf update
+   ```
+   dbt_git_repo            = "https://github.com/mwiewior/tbd-tpc-di.git"
+   dbt_git_repo_branch     = "main"
+   ```
+   so dbt_git_repo points to your fork of tbd-tpc-di. 
 
 12. Redeploy infrastructure and check if the DAG finished with no errors:
 
 ***The screenshot of Apache Aiflow UI***
-
-WARN metastore: Failed to connect to the MetaStore Serve
