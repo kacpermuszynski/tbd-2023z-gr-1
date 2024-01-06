@@ -34,14 +34,14 @@ module "dbt_docker_image" {
   spark_version      = local.spark_version
 }
 ```
-4. Provision your infrastructure.
+4. :white_check_mark: Provision your infrastructure.
 
     a) setup Vertex AI Workbench `pyspark` kernel as described in point [8](https://github.com/bdg-tbd/tbd-workshop-1/tree/v1.0.32#project-setup) 
 
     b) upload [tpc-di-setup.ipynb](https://github.com/bdg-tbd/tbd-workshop-1/blob/v1.0.36/notebooks/tpc-di-setup.ipynb) to 
 the running instance of your Vertex AI Workbench
 
-5. In `tpc-di-setup.ipynb` modify cell under section ***Clone tbd-tpc-di repo***:
+5. :white_check_mark: In `tpc-di-setup.ipynb` modify cell under section ***Clone tbd-tpc-di repo***:
 
    a)first, fork https://github.com/mwiewior/tbd-tpc-di.git to your github organization.
 
@@ -56,10 +56,8 @@ the running instance of your Vertex AI Workbench
 
    c)update git clone command to point to ***your fork***.
 
- 
 
-
-6. Access Vertex AI Workbench and run cell by cell notebook `tpc-di-setup.ipynb`.
+6. :white_check_mark: Access Vertex AI Workbench and run cell by cell notebook `tpc-di-setup.ipynb`.
 
    a) in the first cell of the notebook replace: `%env DATA_BUCKET=tbd-2023z-9910-data` with your data bucket.
 
@@ -142,9 +140,9 @@ Analyzing the output logs after we ran the script, we can conclude that:
 
    ***Code and description of your tests***
 
-11. In main.tf update
+11. :white_check_mark: In main.tf update
    ```
-   dbt_git_repo            = "https://github.com/mwiewior/tbd-tpc-di.git"
+   dbt_git_repo            = "https://github.com/kacpermuszynski/tbd-tpc-di"
    dbt_git_repo_branch     = "main"
    ```
    so dbt_git_repo points to your fork of tbd-tpc-di. 
