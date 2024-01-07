@@ -113,26 +113,36 @@ terraform destroy -no-color -var-file env/project.tfvars
 | <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | ~> 1.5.0 |
 | <a name="requirement_docker"></a> [docker](#requirement\_docker) | 3.0.2 |
 | <a name="requirement_google"></a> [google](#requirement\_google) | ~> 4.84.0 |
+| <a name="requirement_kubernetes"></a> [kubernetes](#requirement\_kubernetes) | 2.24.0 |
 
 ## Providers
 
-No providers.
+| Name | Version |
+|------|---------|
+| <a name="provider_google"></a> [google](#provider\_google) | 4.84.0 |
+| <a name="provider_kubernetes"></a> [kubernetes](#provider\_kubernetes) | 2.24.0 |
 
 ## Modules
 
 | Name | Source | Version |
 |------|--------|---------|
-| <a name="module_composer"></a> [composer](#module\_composer) | ./modules/composer | n/a |
-| <a name="module_data-pipelines"></a> [data-pipelines](#module\_data-pipelines) | ./modules/data-pipeline | n/a |
-| <a name="module_dataproc"></a> [dataproc](#module\_dataproc) | ./modules/dataproc | n/a |
-| <a name="module_gcr"></a> [gcr](#module\_gcr) | ./modules/gcr | n/a |
-| <a name="module_jupyter_docker_image"></a> [jupyter\_docker\_image](#module\_jupyter\_docker\_image) | ./modules/docker_image | n/a |
-| <a name="module_vertex_ai_workbench"></a> [vertex\_ai\_workbench](#module\_vertex\_ai\_workbench) | ./modules/vertex-ai-workbench | n/a |
-| <a name="module_vpc"></a> [vpc](#module\_vpc) | ./modules/vpc | n/a |
+| <a name="module_composer"></a> [composer](#module\_composer) | github.com/bdg-tbd/tbd-workshop-1.git | v1.0.36/modules/composer |
+| <a name="module_data-pipelines"></a> [data-pipelines](#module\_data-pipelines) | github.com/bdg-tbd/tbd-workshop-1.git | v1.0.36/modules/data-pipeline |
+| <a name="module_dataproc"></a> [dataproc](#module\_dataproc) | github.com/bdg-tbd/tbd-workshop-1.git | v1.0.36/modules/dataproc |
+| <a name="module_dbt_docker_image"></a> [dbt\_docker\_image](#module\_dbt\_docker\_image) | github.com/bdg-tbd/tbd-workshop-1.git | v1.0.36/modules/dbt_docker_image |
+| <a name="module_gcr"></a> [gcr](#module\_gcr) | github.com/bdg-tbd/tbd-workshop-1.git | v1.0.36/modules/gcr |
+| <a name="module_jupyter_docker_image"></a> [jupyter\_docker\_image](#module\_jupyter\_docker\_image) | github.com/bdg-tbd/tbd-workshop-1.git | v1.0.36/modules/jupyter_docker_image |
+| <a name="module_vertex_ai_workbench"></a> [vertex\_ai\_workbench](#module\_vertex\_ai\_workbench) | github.com/bdg-tbd/tbd-workshop-1.git | v1.0.36/modules/vertex-ai-workbench |
+| <a name="module_vpc"></a> [vpc](#module\_vpc) | github.com/bdg-tbd/tbd-workshop-1.git | v1.0.36/modules/vpc |
 
 ## Resources
 
-No resources.
+| Name | Type |
+|------|------|
+| [google_compute_firewall.allow-all-internal](https://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/compute_firewall) | resource |
+| [kubernetes_service.dbt-task-service](https://registry.terraform.io/providers/hashicorp/kubernetes/2.24.0/docs/resources/service) | resource |
+| [google_client_config.provider](https://registry.terraform.io/providers/hashicorp/google/latest/docs/data-sources/client_config) | data source |
+| [google_container_cluster.composer-gke-cluster](https://registry.terraform.io/providers/hashicorp/google/latest/docs/data-sources/container_cluster) | data source |
 
 ## Inputs
 
