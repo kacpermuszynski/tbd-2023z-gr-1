@@ -83,9 +83,23 @@ the running instance of your Vertex AI Workbench
   ```
 
 
-7. Explore files created by generator and describe them, including format, content, total size.
+7. :white_check_mark: Explore files created by generator and describe them, including format, content, total size.
 
    ***Files desccription***
+
+   The generator has created a significant amount of data, approximately 960 MiB, stored in the tmp/tpc-di directory. This data is divided into three batches:
+
+   Batch1: This is the largest batch, taking up around 940 MiB of space. It primarily contains CSV files. These files are typically used for data storage and are a common format for data import/export in databases. Each line in a CSV file usually represents a data record, and each field (separated by commas) in the line represents an attribute of the data record.
+
+   Batch2 and Batch3: These batches are much smaller, each occupying about 12 MiB of space.
+
+   CSV files, located in those batches later on will be used in the loading stage for the purpose of feeding the data inside database.
+
+   TotalRecords for Batch1: 15980433
+   TotalRecords for Batch2: 67451
+   TotalRecords for Batch3: 67381
+
+   ![img.png](doc/figures/generated-files.png)
 
 8. :white_check_mark: Analyze tpcdi.py. What happened in the loading stage?
 
@@ -136,9 +150,43 @@ Analyzing the output logs after we ran the script, we can conclude that:
 
       ![img.png](doc/figures/sql-tables.png)
 
-10. Add some 3 more [dbt tests](https://docs.getdbt.com/docs/build/tests) and explain what you are testing. ***Add new tests to your repository.***
+10. :white_check_mark: Add some 3 more [dbt tests](https://docs.getdbt.com/docs/build/tests) and explain what you are testing. ***Add new tests to your repository.***
 
    ***Code and description of your tests***
+
+   ```sql
+
+         -- Test for Null end_timestamp in Current Trades: This test checks if there are any current trades (IS_CURRENT = True) with a null end_timestamp.
+      SELECT 
+         sk_trade_id, 
+         COUNT(*) cnt
+      FROM {{ ref('dim_trade') }} 
+      WHERE IS_CURRENT = True AND end_timestamp IS NULL
+      GROUP BY sk_trade_id
+      HAVING cnt > 0
+
+      -- Test for Null description: This test checks if there are any records with a null description.
+      SELECT 
+         sk_customer_id, 
+         sk_account_id,
+         COUNT(*) cnt
+      FROM {{ ref('fact_cash_balances') }} 
+      WHERE description IS NULL
+      GROUP BY sk_customer_id, sk_account_id
+      HAVING cnt > 0
+
+      -- Test for Duplicate Records: This test checks if there are any duplicate records.
+      SELECT 
+         sk_customer_id, 
+         sk_account_id,
+         sk_transaction_date,
+         description,
+         COUNT(*) cnt
+      FROM {{ ref('fact_cash_balances') }} 
+      GROUP BY sk_customer_id, sk_account_id, sk_transaction_date, description
+      HAVING cnt > 1
+
+   ```
 
 11. :white_check_mark: In main.tf update
    ```
@@ -147,6 +195,8 @@ Analyzing the output logs after we ran the script, we can conclude that:
    ```
    so dbt_git_repo points to your fork of tbd-tpc-di. 
 
-12. Redeploy infrastructure and check if the DAG finished with no errors:
+12. :white_check_mark: Redeploy infrastructure and check if the DAG finished with no errors:
 
 ***The screenshot of Apache Aiflow UI***
+
+      ![img.png](doc/figures/sql-tables.png)
