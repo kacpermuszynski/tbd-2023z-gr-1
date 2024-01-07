@@ -199,4 +199,4 @@ Analyzing the output logs after we ran the script, we can conclude that:
 
 ***The screenshot of Apache Aiflow UI***
 
-      ![img.png](doc/figures/sql-tables.png)
+   ![img.png](doc/figures/sql-tables.png)
